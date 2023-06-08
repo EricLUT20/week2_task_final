@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <table id="input-table">
+      <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Admin</th>
+        <th>Image</th>
+      </tr>
+      <tr>
+        <td>Webmaster</td>
+        <td>webmaster@example.com</td>
+        <td>Demoland 123</td>
+        <td>X</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>User123</td>
+        <td>user123@example.com</td>
+        <td>Userplace 321</td>
+        <td>-</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>AnotherUser222</td>
+        <td>anotheruser222@example.com</td>
+        <td>AnotherPlace 21</td>
+        <td>-</td>
+        <td></td>
+      </tr>
+    </table>
+
+    <form id="user-form">
+      <label for="input-username">Username:</label>
+      <input type="text" id="input-username" required />
+      <label for="input-email">Email:</label>
+      <input type="email" id="input-email" required />
+      <label for="input-address">Address:</label>
+      <input type="text" id="input-address" required />
+      <label for="input-admin">Admin:</label>
+      <input type="checkbox" id="input-admin" />
+      <button type="button" id="submit-data">Submit</button>
+    </form>
+
+    <button type="button" id="empty-table">Empty Table</button>
+
+    <script>
+      document.getElementById("submit-data").addEventListener("click", function () {
+          let username = document.getElementById("input-username").value;
+          let email = document.getElementById("input-email").value;
+          let address = document.getElementById("input-address").value;
+          let admin = document.getElementById("input-admin").checked;
+
+          let table = document.getElementById("input-table");
+          let existingRow = findRowByUsername(table, username);
+
+          if (existingRow) {
+            let emailCell = existingRow.cells[1];
+            let addressCell = existingRow.cells[2];
+            let adminCell = existingRow.cells[3];
+
+            emailCell.textContent = email;
+            addressCell.textContent = address;
+            adminCell.textContent = admin ? "X" : "-";
+          } else {
+            let row = table.insertRow(-1);
+            let usernameCell = row.insertCell(0);
+            let emailCell = row.insertCell(1);
+            let addressCell = row.insertCell(2);
+            let adminCell = row.insertCell(3);
+
+            usernameCell.textContent = username;
+            emailCell.textContent = email;
+            addressCell.textContent = address;
+            adminCell.textContent = admin ? "X" : "-";
+          }
+        });
+
+      document.getElementById("empty-table").addEventListener("click", function () {
+          let table = document.getElementById("input-table");
+          while (table.rows.length > 1) {
+            table.deleteRow(1);
+          }
+        });
+        
+      function findRowByUsername(table, username) {
+        for (let i = 1; i < table.rows.length; i++) {
+          let row = table.rows[i];
+          let usernameCell = row.cells[0];
+          if (usernameCell.textContent === username) {
+            return row;
+          }
+        }
+        return null;
+      }
+    </script>
+  </body>
+</html>
